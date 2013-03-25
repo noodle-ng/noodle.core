@@ -14,6 +14,13 @@ Filesystem resources will be described by
 are capable of denoting protocols, credentials, servers and the
 filesystem structuring elements like directories and files.
 
+The filesystem abstraction may be completely read-only.
+
+To account for special needs (e.g. for network filesystems which need
+to hold a connection to a remote host and the associated
+credentials) all filesystem implementations need to be based on a 
+root object which can do exactly that.
+
 ### Required features
 
 **What features do all filesystem implementations have to provide?**
@@ -30,5 +37,5 @@ filesystem structuring elements like directories and files.
   and the accompanying third-party library:
   [pathlib](https://pypi.python.org/pypi/pathlib/).
 * Preliminary implementations and thoughts on the interface design:
-  [master@noodle-ng:crawler/filesystem.py](https://github.com/noodle-ng/noodle-ng/blob/master/crawler/filesystem.py) and
-  [develop@noodle-ng:crawling/__init__.py#L23](https://github.com/noodle-ng/noodle-ng/blob/develop/crawling/__init__.py#L23)
+  * [master@noodle-ng:crawler/filesystem.py](https://github.com/noodle-ng/noodle-ng/blob/master/crawler/filesystem.py) and
+  * [develop@noodle-ng:crawling/__init__.py#L23](https://github.com/noodle-ng/noodle-ng/blob/develop/crawling/__init__.py#L23)
