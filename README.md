@@ -1,4 +1,4 @@
-noodle-core
+noodle.core
 ===========
 
 Noodle NG Core Components
