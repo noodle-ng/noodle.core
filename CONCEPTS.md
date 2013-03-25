@@ -24,3 +24,8 @@ What features do all filesystem implementations have to provide?
 * Reading file metadata (``os.stat()``)
 * Reading files (``open()``)
 
+See also:
+
+[PEP 428 - object-oriented filesystem paths](http://www.python.org/dev/peps/pep-0428/)
+and the accompanying third-party library:
+[pathlib](https://pypi.python.org/pypi/pathlib/).
