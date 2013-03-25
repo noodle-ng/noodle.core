@@ -13,7 +13,7 @@ setup(
     description='Noodle NG Core Components',
     long_description=open('README.md').read(),
     install_requires=[
-        'SQLAlchemy'
+        'SQLAlchemy',
         ],
     packages=find_packages(exclude=['tests']),
     namespace_packages=['noodle'],
