@@ -26,6 +26,13 @@ class Filesystem(object):
         """
         raise NotImplementedError()
 
+    def open(self, name):
+        """open(name)
+
+        Open a file, returns a file-like object.
+        """
+        raise NotImplementedError()
+
     def listdir(self, path):
         """os.listdir(path)
 
@@ -51,6 +58,12 @@ class Filesystem(object):
         """os.stat(path)
 
         Perform a stat call on the given path, returns a stat result tuple.
+
+        For backward compatibility, the return value of stat() is also
+        accessible as a tuple of at least 10 integers giving the most
+        important (and portable) members of the stat structure, in the order:
+        st_mode, st_ino, st_dev, st_nlink, st_uid, st_gid, st_size,
+        st_atime, st_mtime, st_ctime.
         """
         raise NotImplementedError()
 
@@ -93,12 +106,5 @@ class Filesystem(object):
         """os.path.isfile(s)
 
         Test whether a path is a regular file
-        """
-        raise NotImplementedError()
-
-    def open(self, name):
-        """open(name)
-
-        Open a file, returns a file-like object.
         """
         raise NotImplementedError()

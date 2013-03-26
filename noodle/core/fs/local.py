@@ -45,6 +45,13 @@ class LocalFilesystem(Filesystem):
         else:
             return os.path.normpath(os.path.join(self.root, path))
 
+    def open(self, name):
+        """open(name)
+
+        Open a file, returns a file-like object.
+        """
+        return open(self.abspath(name))
+
     def listdir(self, path=''):
         """os.listdir(path)
 
@@ -117,10 +124,3 @@ class LocalFilesystem(Filesystem):
         Test whether a path is a regular file
         """
         return os.path.isfile(self.abspath(s))
-
-    def open(self, name):
-        """open(name)
-
-        Open a file, returns a file-like object.
-        """
-        return open(self.abspath(name))
