@@ -2,7 +2,7 @@
 """An example implementation of the filesystem abstraction layer
 for a local filesystem"""
 
-from base import Filesystem
+from noodle.core.fs import Filesystem
 
 import os
 

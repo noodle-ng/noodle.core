@@ -9,14 +9,6 @@ fs Package
     :undoc-members:
     :show-inheritance:
 
-:mod:`base` Module
-------------------
-
-.. automodule:: noodle.core.fs.base
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 :mod:`local` Module
 -------------------
 
