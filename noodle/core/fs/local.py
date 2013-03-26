@@ -7,9 +7,6 @@ from noodle.core.fs import Filesystem
 import os
 
 
-pathjoin = os.path.join
-
-
 class LocalFilesystem(Filesystem):
     """"""
 
@@ -38,6 +35,16 @@ class LocalFilesystem(Filesystem):
         """Internal method to check whether path is absolute"""
         return path.startswith(self.absolute_root)
 
+    def abspath(self, path):
+        """os.path.abspath(path)
+
+        Return a normalized absolutized version of the pathname path.
+        """
+        if not self.absolute and self._is_absolute_(path):
+            raise ValueError(path)
+        else:
+            return os.path.normpath(os.path.join(self.root, path))
+
     def listdir(self, path=''):
         """os.listdir(path)
 
@@ -46,82 +53,74 @@ class LocalFilesystem(Filesystem):
         If path is not set, it will be attempted to list the contents
         of the root directory.
         """
-        if not self.absolute and self._is_absolute_(path):
-            raise ValueError(path)
-        return os.listdir(pathjoin(self.root, path))
+        return os.listdir(self.abspath(path))
 
     def walk(self, top, topdown=True, onerror=None, followlinks=False):
         """os.walk(top, topdown=True, onerror=None, followlinks=False)
 
         Directory tree generator.
         """
-        raise NotImplementedError()
+        return os.walk(self.abspath(top), topdown, onerror, followlinks)
 
     def path_walk(self, top, func, arg):
         """os.path.walk(top, func, arg)
 
         Directory tree walk with callback function.
         """
-        raise NotImplementedError()
+        return os.path.walk(self.abspath(top), func, arg)
 
     def stat(self, path):
         """os.stat(path)
 
         Perform a stat call on the given path, returns a stat result tuple.
         """
-        raise NotImplementedError()
+        return os.stat(self.abspath(path))
 
     def getatime(self, filename):
         """os.path.getatime(filename)
 
         Return the last access time of a file, reported by os.stat().
         """
-        raise NotImplementedError()
+        return os.path.getatime(self.abspath(filename))
 
     def getctime(self, filename):
         """os.path.getctime(filename)
 
         Return the metadata change time of a file, reported by os.stat().
         """
-        raise NotImplementedError()
+        return os.path.getctime(self.abspath(filename))
 
     def getmtime(self, filename):
         """os.path.getmtime(filename)
 
         Return the last modification time of a file, reported by os.stat().
         """
-        raise NotImplementedError()
+        return os.path.getmtime(self.abspath(filename))
 
     def getsize(self, filename):
         """os.path.getsize(filename)
 
         Return the size of a file, reported by os.stat().
         """
-        raise NotImplementedError()
+        return os.path.getsize(self.abspath(filename))
 
     def isdir(self, s):
         """os.path.isdir(s)
 
         Return true if the pathname refers to an existing directory.
         """
-        raise NotImplementedError()
+        return os.path.isdir(self.abspath(s))
 
     def isfile(self, s):
         """os.path.isfile(s)
 
         Test whether a path is a regular file
         """
-        raise NotImplementedError()
+        return os.path.isfile(self.abspath(s))
 
     def open(self, name):
         """open(name)
 
         Open a file, returns a file-like object.
         """
-        raise NotImplementedError()
-
-
-if __name__ == '__main__':
-    print LocalFilesystem().listdir('/')
-    print LocalFilesystem('/usr').listdir('/')
-    print LocalFilesystem('/usr', absolute=False).listdir('share')
+        return open(self.abspath(name))

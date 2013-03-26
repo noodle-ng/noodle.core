@@ -19,6 +19,13 @@ class Filesystem(object):
         """
         raise NotImplementedError()
 
+    def abspath(self, path):
+        """os.path.abspath(path)
+
+        Return a normalized absolutized version of the pathname path.
+        """
+        raise NotImplementedError()
+
     def listdir(self, path):
         """os.listdir(path)
 
