@@ -7,6 +7,8 @@ This project contains only the core components for the Noodle NG file search eng
 The database model and some auxiliary functions.
 It should depend on as little other packages as possible!
 
+[![Build Status](https://travis-ci.org/noodle-ng/noodle.core.png)](https://travis-ci.org/noodle-ng/noodle.core)
+
 Installation/Usage
 ------------------
 

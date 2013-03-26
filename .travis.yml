@@ -5,3 +5,6 @@ python:
 install: python setup.py develop
 # command to run tests
 script: python setup.py nosetests
+
+notifications:
+  irc: "134.93.48.201#noodle"
