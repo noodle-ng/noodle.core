@@ -5,7 +5,7 @@ from sqlalchemy import Table, ForeignKey, Column
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy.types import Integer, Unicode, DateTime, Float, Binary, Numeric, BigInteger
 
-from noodle.core.model import DeclarativeBase
+from noodle.core.model import DeclarativeBase, IPAddress
 
 
 class Share(DeclarativeBase):
@@ -69,8 +69,8 @@ class Host(DeclarativeBase):
     __tablename__ = u'hosts'
 
     name = Column(Unicode(256))
-    #TODO: Custom column type wrapper
-    ip = Column(BigInteger, nullable=False)
+
+    ip = Column(IPAddress, nullable=False)
 
     sharesize = Column(BigInteger)
 

@@ -4,7 +4,7 @@
 from datetime import datetime
 
 from sqlalchemy import Table, ForeignKey, Column
-from sqlalchemy.types import Integer, Unicode, DateTime, Float, Binary, Numeric
+from sqlalchemy.types import Integer, DateTime
 from sqlalchemy.ext.declarative import declarative_base, declared_attr
 from sqlalchemy.orm import sessionmaker, scoped_session
 
@@ -23,6 +23,7 @@ DeclarativeBase = declarative_base(cls=Base)
 
 metadata = DeclarativeBase.metadata
 
+from noodle.core.model.lib import IPAddress
 from noodle.core.model.share import (
     Share, Content, Folderish,
     Folder, File,
@@ -32,6 +33,7 @@ from noodle.core.model.share import (
 
 __all__ = [
     'Session',
+    'IPAddress',
     'DeclarativeBase', 'metadata',
     'Share', 'Content', 'Folderish',
     'Folder', 'File',
