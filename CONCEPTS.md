@@ -28,8 +28,16 @@ root object which can do exactly that.
 
 * Listing directories (``os.listdir()``)
 * Recursively walking directory structure (``os.walk()`` and ``os.path.walk()``)
-* Reading file metadata (``os.stat()``)
+* Reading file metadata (``os.stat()``, ``os.path.get*()``)
+* Determining type of path (``os.path.isfile()``, ``os.path.isdir()``)
 * Reading files (``open()``)
+
+## Possible features
+
+* Testing permissions on a path (``os.access()``, ``os.path.exists()``)
+* Reading filesystem metadata (``os.statvfs()``)
+* Symbolic link awareness (``os.lstat()``, ``os.readlink()``,
+  ``os.path.lexists()``, ``os.path.islink()``)
 
 ### See also:
 
