@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-""""""
+"""Development test script for the plugins"""
 
 import pkg_resources
 
