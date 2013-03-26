@@ -18,16 +18,28 @@ class TestLocalFilesystem(unittest.TestCase):
     def tearDown(self):
         shutil.rmtree(self.tempdir)
 
+    def test_init(self):
+        '''LocalFilesystem initialization'''
+        LocalFilesystem(self.rootdir, absolute=True)
+        LocalFilesystem(absolute=True)
+
+        LocalFilesystem(self.rootdir, absolute=False)
+        with self.assertRaises(ValueError):
+            LocalFilesystem(absolute=False)
+
     def test_abspath(self):
+        '''LocalFilesystem abspath'''
         self.assertEqual(
             LocalFilesystem(self.rootdir).abspath(
                 os.path.join(self.tempdirname, self.tempfilename)),
             self.tempfile)
 
     def test_open(self):
+        '''LocalFilesystem open'''
         LocalFilesystem().open(self.tempfile)
 
     def test_listdir_root(self):
+        '''LocalFilesystem listdir of rootdir'''
         a = LocalFilesystem().listdir(self.rootdir)
         self.assertIn(self.tempdirname, a)
         b = LocalFilesystem(self.rootdir).listdir()
@@ -35,6 +47,7 @@ class TestLocalFilesystem(unittest.TestCase):
         self.assertItemsEqual(a, b)
 
     def test_listdir_sub(self):
+        '''LocalFilesystem listdir of subdir'''
         a = LocalFilesystem().listdir(os.path.join(self.rootdir, self.tempdirname))
         self.assertIn(self.tempfilename, a)
         b = LocalFilesystem(self.rootdir).listdir(self.tempdirname)
@@ -42,17 +55,15 @@ class TestLocalFilesystem(unittest.TestCase):
         self.assertItemsEqual(a, b)
 
     def test_listdir_no_absolute(self):
+        '''LocalFilesystem listdir with no absolute paths'''
         lfs = LocalFilesystem(self.rootdir, absolute=False)
         l = lfs.listdir(self.tempdirname)
         self.assertIn(self.tempfilename, l)
         with self.assertRaises(ValueError):
             lfs.listdir(self.tempdir)
 
-    def test_listdir_no_absolute_no_root(self):
-        with self.assertRaises(ValueError):
-            LocalFilesystem(absolute=False)
-
     def test_walk(self):
+        '''LocalFilesystem walk'''
         walk = list(LocalFilesystem(self.rootdir).walk(''))
         self.assertEqual(
             [(self.rootdir, [self.tempdirname], []),
@@ -60,6 +71,7 @@ class TestLocalFilesystem(unittest.TestCase):
             walk)
 
     def test_path_walk(self):
+        '''LocalFilesystem path_walk'''
         walk = list()
         def func(arg, top, names):
             walk.extend(names)
@@ -67,6 +79,7 @@ class TestLocalFilesystem(unittest.TestCase):
         self.assertSequenceEqual([self.tempdirname, self.tempfilename], walk)
 
     def test_stat_and_get_star(self):
+        '''LocalFilesystem stat and get*'''
         lsf = LocalFilesystem()
         stat = lsf.stat(self.tempfile)
         atime = lsf.getatime(self.tempfile)
@@ -79,7 +92,9 @@ class TestLocalFilesystem(unittest.TestCase):
         self.assertEqual(size, stat[_stat.ST_SIZE])
 
     def test_isdir(self):
+        '''LocalFilesystem isdir'''
         self.assertTrue(LocalFilesystem().isdir(self.tempdir))
 
     def test_isfile(self):
+        '''LocalFilesystem isfile'''
         self.assertTrue(LocalFilesystem().isfile(self.tempfile))
