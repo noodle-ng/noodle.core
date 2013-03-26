@@ -15,11 +15,6 @@ Session = sessionmaker()
 class Base(object):
     """Base mixin provides columns that shall be in all tables"""
 
-    # Automatically set the tablename as per convention
-    @declared_attr
-    def __tablename__(cls):  # @NoSelf
-        return cls.__name__.lower() + 's'
-
     id = Column(Integer, primary_key=True)
     created = Column(DateTime, nullable=False, default=datetime.now)
     modified = Column(DateTime, nullable=False, default=datetime.now)
@@ -28,10 +23,18 @@ DeclarativeBase = declarative_base(cls=Base)
 
 metadata = DeclarativeBase.metadata
 
-from noodle.core.model.share import Share, Host
+from noodle.core.model.share import (
+    Share, Content, Folderish,
+    Folder, File,
+    Service,
+    Host,
+    )
 
 __all__ = [
     'Session',
     'DeclarativeBase', 'metadata',
-    'Share', 'Host',
+    'Share', 'Content', 'Folderish',
+    'Folder', 'File',
+    'Service',
+    'Host',
     ]

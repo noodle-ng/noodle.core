@@ -2,27 +2,72 @@
 """"""
 
 from sqlalchemy import Table, ForeignKey, Column
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, backref
 from sqlalchemy.types import Integer, Unicode, DateTime, Float, Binary, Numeric, BigInteger
 
 from noodle.core.model import DeclarativeBase
 
 
 class Share(DeclarativeBase):
+    '''Polymorphic base class for Share objects'''
+    __tablename__ = 'shares'
+
     parent_id = Column(Integer, ForeignKey('shares.id'))
-    host_id = Column(Integer, ForeignKey('hosts.id'))
 
     name = Column(Unicode(256))
 
     type = Column(Unicode(20), nullable=False)
+
     __mapper_args__ = {'polymorphic_on': type}
 
 
-#class Service(Share):
-#    __mapper_args__ = {'polymorphic_identity': u'service'}
+class Folderish(Share):
+    '''Polymorphic mixin for entities with children'''
+
+    children = relationship(Share, cascade='all',
+        backref=backref('parent', remote_side='Share.id'))
+
+    __mapper_args__ = {'polymorphic_identity': u'folderish'}
+
+
+class Content(Share):
+    '''Polymorphic mixin for entities with a size'''
+
+    size = Column(BigInteger)
+
+    __mapper_args__ = {'polymorphic_identity': u'content'}
+
+
+class Folder(Content, Folderish):
+    '''Folder'''
+
+    __mapper_args__ = {'polymorphic_identity': u'folder'}
+
+
+class File(Content):
+    '''File'''
+
+    extension = Column(Unicode(256))
+
+    hash = Column(Unicode(256))
+
+    __mapper_args__ = {'polymorphic_identity': u'file'}
+
+
+class Service(Content, Folderish):
+    '''Service is the most top-level Share object'''
+
+    host_id = Column(Integer, ForeignKey('hosts.id'))
+
+    host = relationship('Host', backref=backref('services'))
+
+    __mapper_args__ = {'polymorphic_identity': u'service'}
 
 
 class Host(DeclarativeBase):
+    '''Host'''
+    __tablename__ = u'hosts'
+
     name = Column(Unicode(256))
     #TODO: Custom column type wrapper
     ip = Column(BigInteger, nullable=False)
@@ -30,4 +75,3 @@ class Host(DeclarativeBase):
     sharesize = Column(BigInteger)
 
 #    services = relationship(Service, backref='host')
-#    statistics = relationship(Statistic, backref="host")
