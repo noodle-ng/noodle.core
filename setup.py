@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """"""
 
+import multiprocessing
+
 from setuptools import setup, find_packages
 
 setup(
@@ -15,6 +17,11 @@ setup(
     install_requires=[
         'SQLAlchemy',
     ],
+    tests_require=[
+        'nose',
+        'coverage'
+    ],
+    test_suite='nose.collector',
     packages=find_packages(exclude=['tests']),
     namespace_packages=['noodle'],
 )

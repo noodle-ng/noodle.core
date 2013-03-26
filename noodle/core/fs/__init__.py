@@ -17,7 +17,6 @@ class Filesystem(object):
         For a remote filesystem, this could hold the host and
         credential data and the remote connection object.
         """
-        raise NotImplementedError()
 
     def abspath(self, path):
         """os.path.abspath(path)
