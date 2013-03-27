@@ -19,9 +19,8 @@ class Filesystem(object):
         """
 
     def abspath(self, path):
-        """os.path.abspath(path)
-
-        Return a normalized absolutized version of the pathname path.
+        """Return a normalized absolutized version of the pathname path.
+        Like :func:`os.path.abspath`.
         """
         raise NotImplementedError()
 
