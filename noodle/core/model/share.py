@@ -3,7 +3,7 @@
 
 from sqlalchemy import Table, ForeignKey, Column
 from sqlalchemy.orm import relationship, backref
-from sqlalchemy.types import Integer, Unicode, DateTime, Float, Binary, Numeric, BigInteger
+from sqlalchemy.types import Integer, Unicode, DateTime, Float, Binary, Numeric, BigInteger, Enum
 
 from noodle.core.model import DeclarativeBase, IPAddress
 
@@ -16,7 +16,10 @@ class Share(DeclarativeBase):
 
     name = Column(Unicode(256))
 
-    type = Column(Unicode(20), nullable=False)
+    type = Column(
+        Enum(u'folderish', u'content', u'folder', u'file', u'service',
+            name='share_type'),
+        nullable=False)
 
     __mapper_args__ = {'polymorphic_on': type}
 
