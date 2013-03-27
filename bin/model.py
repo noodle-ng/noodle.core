@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """Development test script for the model"""
 
+from time import sleep
+
 from noodle.core.model import *  # @UnusedWildImport
 
 
@@ -29,4 +31,17 @@ if __name__ == '__main__':
 
     s = Session()
     h = s.query(Host).first()
-    print h, h.ip, h.name
+    print h, h.ip, h.name, h.created, h.modified
+
+    sleep(1)
+
+    s = Session()
+    h = s.query(Host).first()
+    h.ip = '192.168.0.1'
+    h.name = 'beginoftheinternet'
+    s.add(h)
+    s.commit()
+
+    s = Session()
+    h = s.query(Host).first()
+    print h, h.ip, h.name, h.created, h.modified
