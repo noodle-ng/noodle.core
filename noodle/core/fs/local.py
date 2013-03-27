@@ -8,39 +8,46 @@ import os
 
 
 class LocalFilesystem(Filesystem):
-    """"""
+    """A Filesystem implementation for any kind of local filesystem"""
 
-    absolute_root = '/'
+    _absolute_root = '/'
 
     def __init__(self, root='', absolute=True):
-        """Initialize a Filesystem object
+        """Initialize a LocalFilesystem object
 
-        If root is set, all further operations will be relative
-        to it.
-        If absolute is True, all other methods will accept
-        absolute paths (i.e. paths starting with '/')
-        If absolute is False, absolute paths will be rejected.
+        :param root: Root path in filesystem
+        :param absolute:
+            Whether to allow absolut paths in method calls.
+            If this is :const:`True`, an absolute root path must be set.
 
-        TODO: Support for file:// URLs
-        TODO: Support absolute paths on windows
+        .. TODO::
+            - Support for file:// URLs
+            - Support absolute paths on windows
         """
-        if not absolute and not self._is_absolute_(root):
+        if not absolute and not self._is_absolute(root):
             # TODO: Automatically set root to cwd or raise?
             #root = os.getcwd()
             raise ValueError(root)
         self.root = root or ''
         self.absolute = absolute
 
-    def _is_absolute_(self, path):
-        """Internal method to check whether path is absolute"""
-        return path.startswith(self.absolute_root)
+    def _is_absolute(self, path):
+        """Internal method to check whether path is absolute
+
+        :param path: Path to check for being absolute
+        :return: Whether path is absolute
+        """
+        return path.startswith(self._absolute_root)
 
     def abspath(self, path):
-        """os.path.abspath(path)
+        """Return a normalized absolutized version of the pathname path.
 
-        Return a normalized absolutized version of the pathname path.
+        Mimicks the behaviour of :py:func:`os.path.abspath`
+
+        :param path: Path to transform to absolute
+        :return: Absolute version of path
         """
-        if not self.absolute and self._is_absolute_(path):
+        if not self.absolute and self._is_absolute(path):
             raise ValueError(path)
         else:
             return os.path.normpath(os.path.join(self.root, path))
